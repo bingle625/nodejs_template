@@ -3,6 +3,7 @@ const compression = require("compression");
 const methodOverride = require("method-override");
 const cors = require("cors");
 import testRouter from "../src/app/TestInit/TestRouter";
+const { swaggerUi, specs } = require("../swagger/swagger");
 
 module.exports = function () {
   const app = express();
@@ -24,7 +25,10 @@ module.exports = function () {
     res.send("Hi");
   });
   //해당 줄 아래에 추가할 도메인 추가
-  app.use("/test", testRouter);
 
+  app.use("/test", testRouter);
+  console.log(specs);
+
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
   return app;
 };
